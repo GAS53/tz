@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  tz2:
+    container_name: tz2
+    build: ./tz_2
+    ports:
+      - '5000:5000'
+    env_file:
+      - config.env
+    command: bash -c "flask init_db && python wsgi.py"
+    depends_on:
+      - postge_db
+    volumes:
+      - ../db_songs:/app/uploads
+
+  tz1:
+    container_name: tz1
+    build: ./tz_1
+    ports:
+      - '8000:8000'
+    env_file:
+      - config.env
+    command: bash -c "alembic upgrade head && python main.py"
+    depends_on:
+      - postge_db
+
+  postge_db:
+    image: postgres
+    restart: always
+    env_file:
+      - config.env
+    ports:
+      - '5432:5432'
+    volumes:
+      - ../db_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - '8084:8080'
+    depends_on:
+      - postge_db
+
+
+volumes:
+  db_data:
+  db_songs:

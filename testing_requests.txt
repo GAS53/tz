@@ -1,0 +1,9 @@
+http://0.0.0.0:8084  # проверка базы данных логин пароль храняться в config.env
+
+
+curl http://127.0.0.1:5000/df
+curl http://0.0.0.0:8000/dffd
+
+
+
+curl -X POST -H "Content-Type: multipart/form-data" -F "file=@/home/main/Documents/bewise.ai/sample.wav" -F "user_id=6" -F "token=9d163974e216486e9cd348733aa12406" http://localhost:5000/upload

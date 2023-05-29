@@ -1,0 +1,29 @@
+config.env          # хранятся переменные окружения используемые для приложений
+docker-compose up   # для быстрого запуска все уже настроено и будет работать
+
+
+
+http://0.0.0.0:8084  # подключение к базе данных через adminer логин пароль храняться в config.env
+
+Все запросы делаются через утилиту curl
+
+Обработка 404 ошибки:
+curl http://127.0.0.1:5000/df
+curl http://0.0.0.0:8000/dffd
+
+tz1 (вопросы для викторин)
+1.1) curl --header "Content-Type: application/json"   --request POST  http://0.0.0.0:8000/?questions_num=3
+в ответе получаем предыдущий сохранённый вопрос для викторины
+
+tz2 (конвертер vaw в mp3)
+2.1) curl --header "Content-Type: application/json"   --request POST  http://0.0.0.0:5000/add_user/Im_user2
+
+2.2) из ответа на запрос 2.1 вставить токен и user_id и путь к wav файлу
+curl -X POST -H "Content-Type: multipart/form-data" -F "file=@/home/main/Documents/bewise.ai/sample.wav" -F "user_id=6" -F "token=9d163974e216486e9cd348733aa12406" http://localhost:5000/upload
+учтены ошибки повторного добавления файла и неверных токена или user_id
+
+
+2.3) запрос из ответа на 2.2 пример:
+http://0.0.0.0:5000/record?song_id=1&user_id=2
+
+
